@@ -1,0 +1,37 @@
+# Core Django Framework
+Django==5.0.1
+djangorestframework==3.14.0
+
+# Database & Environment
+django-environ==0.11.2
+psycopg2-binary==2.9.9
+
+# API Documentation & Authentication
+djangorestframework-simplejwt==5.3.0
+drf-spectacular==0.27.0
+
+# SEO & Performance
+django-meta==2.4.0
+django-sitemap==2.2
+django-robots==6.1
+django-compressor==4.4
+django-redis==5.4.0
+
+# Image Processing
+Pillow
+
+# Utilities
+python-slugify==8.0.1
+django-crispy-forms==2.1
+crispy-bootstrap5==2024.2
+
+# Development
+django-debug-toolbar==4.2.0
+django-extensions==3.2.3
+
+# Production
+gunicorn==21.2.0
+whitenoise==6.6.0
+
+# Payment Integration
+mpesa-python-sdk==1.0.0

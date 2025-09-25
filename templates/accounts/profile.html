@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Profile - {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <div class="flex items-center mb-8">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="{{ user.display_name }}" class="w-24 h-24 rounded-full mr-6">
+                {% else %}
+                    <div class="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center mr-6">
+                        <i class="fas fa-user text-white text-4xl"></i>
+                    </div>
+                {% endif %}
+                <div>
+                    <h2 class="text-3xl font-bold">{{ user.display_name }}</h2>
+                    <p class="text-gray-600">{{ user.email }}</p>
+                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        {{ user.get_membership_tier_display }} Member
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 border-b pb-2">Personal Information</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-semibold text-gray-700">Username:</p>
+                            <p class="text-gray-600">{{ user.username }}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Full Name:</p>
+                            <p class="text-gray-600">{{ user.full_name|default:"Not set" }}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Phone:</p>
+                            <p class="text-gray-600">{{ user.phone|default:"Not set" }}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Location:</p>
+                            <p class="text-gray-600">{{ user.profile.location|default:"Not set" }}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Birth Date:</p>
+                            <p class="text-gray-600">{{ user.profile.birth_date|date:"N j, Y"|default:"Not set" }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 border-b pb-2">Business Information</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-semibold text-gray-700">Company Name:</p>
+                            <p class="text-gray-600">{{ user.company_name|default:"Not set" }}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Business Type:</p>
+                            <p class="text-gray-600">{{ user.business_type|default:"Not set" }}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Tax Number:</p>
+                            <p class="text-gray-600">{{ user.tax_number|default:"Not set" }}</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-700">Website:</p>
+                            <p class="text-gray-600">{{ user.profile.website|default:"Not set" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold mb-4 border-b pb-2">Bio</h3>
+                <p class="text-gray-600">{{ user.profile.bio|default:"No bio provided." }}</p>
+            </div>
+
+            <div class="mt-8 text-right">
+                {% if user.profile %}
+                    <a href="{% url 'accounts:profile_edit' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                        <i class="fas fa-edit mr-2"></i>Edit Profile
+                    </a>
+                {% else %}
+                    <a href="{% url 'accounts:profile_create' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                        <i class="fas fa-plus mr-2"></i>Create Profile
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

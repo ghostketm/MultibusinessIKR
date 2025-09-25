@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden md:flex">
+            <!-- Product Image Gallery -->
+            <div class="md:w-1/2 p-6">
+                {% if product.featured_image %}
+                    <img src="{{ product.featured_image.url }}" alt="{{ product.name }}" class="w-full h-96 object-cover rounded-lg shadow-md">
+                {% elif product.images.first %}
+                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="w-full h-96 object-cover rounded-lg shadow-md">
+                {% else %}
+                    <div class="w-full h-96 bg-gray-200 flex items-center justify-center rounded-lg shadow-md">
+                        <i class="fas fa-image text-gray-400 text-6xl"></i>
+                    </div>
+                {% endif %}
+                <!-- Additional images can go here -->
+                {% if product.images.all.count > 1 %}
+                    <div class="flex space-x-4 mt-4 overflow-x-auto">
+                        {% for image in product.images.all %}
+                            {% if not image.is_primary %} {# Assuming featured_image is primary #}
+                                <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:product.name }}" class="w-24 h-24 object-cover rounded-lg cursor-pointer hover:opacity-75 transition duration-300">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Product Details -->
+            <div class="md:w-1/2 p-6 flex flex-col justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ product.name }}</h1>
+                    {% if product.category %}
+                        <p class="text-blue-600 text-sm mb-4">{{ product.category.name }}</p>
+                    {% endif %}
+
+                    <p class="text-gray-700 text-lg mb-4">{{ product.short_description|default:product.description|truncatechars:200 }}</p>
+
+                    <div class="flex items-baseline mb-4">
+                        {% if product.is_on_sale %}
+                            <span class="text-red-600 text-3xl font-bold mr-2">${{ product.price }}</span>
+                            <span class="text-gray-500 line-through text-xl mr-2">${{ product.compare_price }}</span>
+                            <span class="bg-red-100 text-red-800 text-sm font-semibold px-2.5 py-0.5 rounded-full">{{ product.discount_percentage }}% Off</span>
+                        {% else %}
+                            <span class="text-blue-600 text-3xl font-bold">${{ product.price }}</span>
+                        {% endif %}
+                    </div>
+
+                    <p class="text-gray-600 mb-4">SKU: {{ product.sku }}</p>
+                    <p class="text-gray-600 mb-4">Product Type: {{ product.get_product_type_display }}</p>
+
+                    {% if product.is_in_stock %}
+                        <span class="text-green-600 font-semibold">In Stock ({{ product.stock_quantity }} available)</span>
+                    {% else %}
+                        <span class="text-red-600 font-semibold">Out of Stock</span>
+                    {% endif %}
+
+                    <hr class="my-6">
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Description</h3>
+                    <p class="text-gray-700 leading-relaxed">{{ product.description|linebreaksbr }}</p>
+
+                    {# Add more details based on product type if needed #}
+                    {% if product.product_type == 'physical' %}
+                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Physical Attributes</h3>
+                        <ul class="list-disc list-inside text-gray-700">
+                            {% if product.weight %}<li>Weight: {{ product.weight }} kg</li>{% endif %}
+                            {% if product.dimensions %}<li>Dimensions: {{ product.dimensions }}</li>{% endif %}
+                        </ul>
+                    {% elif product.product_type == 'digital' %}
+                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Digital Product Details</h3>
+                        <p class="text-gray-700">Download Limit: {{ product.download_limit|default:"Unlimited" }}</p>
+                    {% endif %}
+
+                    {# Product Variants if any #}
+                    {% if product.variants.all %}
+                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">Variants</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% for variant in product.variants.all %}
+                                <span class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm">{{ variant.name }} ({{ variant.effective_price }})</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <div class="mt-6">
+    <form action="{% url 'orders:add_to_cart' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <div class="flex items-center mb-4">
+            <label for="quantity" class="mr-2 text-gray-700">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" class="w-20 p-2 border border-gray-300 rounded-lg">
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+            <i class="fas fa-shopping-cart mr-2"></i> Add to Cart
+        </button>
+    </form>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

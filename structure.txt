@@ -1,0 +1,60 @@
+ikr-business-platform/
+├── .venv/                          # Virtual environment (auto-created)
+├── .env                            # Environment variables
+├── .gitignore                      # Git ignore file
+├── README.md                       # Project documentation
+├── requirements.txt                # Python dependencies
+├── manage.py                       # Django management script
+├── static/                         # Static files (CSS, JS, Images)
+│   ├── css/
+│   │   └── main.css
+│   ├── js/
+│   │   └── main.js
+│   └── images/
+├── templates/                      # HTML templates
+│   ├── base.html
+│   ├── home.html
+│   └── admin/
+├── ikr_project/                    # Main project settings
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+├── apps/                           # All Django apps
+│   ├── __init__.py
+│   ├── accounts/                   # User management
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── serializers.py
+│   │   ├── signals.py
+│   │   └── migrations/
+│   ├── products/                   # Product catalog
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── serializers.py
+│   │   └── migrations/
+│   ├── orders/                     # Order management
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── serializers.py
+│   │   └── migrations/
+│   └── core/                       # Core utilities
+│       ├── __init__.py
+│       ├── utils.py
+│       ├── mixins.py
+│       └── seo.py
+└── media/                          # User uploaded files
+    └── products/

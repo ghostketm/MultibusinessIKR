@@ -1,0 +1,62 @@
+    <!-- Navigation -->
+    <nav class="bg-blue-600 text-white sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <a class="text-2xl font-bold" href="/">
+                    <i class="fas fa-rocket mr-2"></i>{{ SITE_NAME }}
+                </a>
+
+                <button class="lg:hidden" id="mobile-menu-button">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a class="hover:text-yellow-400 transition duration-300" href="/">Home</a>
+                    <a class="hover:text-yellow-400 transition duration-300" href="{% url 'products:product_list' %}">Products</a>
+                    {% if user.is_authenticated %}
+<a class="hover:text-yellow-400 transition duration-300" href="/api/schema/swagger-ui/">API Docs</a>
+{% endif %}
+
+                    {% if user.is_authenticated %}
+                        <div class="relative group">
+                            <button class="flex items-center hover:text-yellow-400 transition duration-300">
+                                <i class="fas fa-user mr-1"></i>{{ user.display_name }}
+                                <i class="fas fa-chevron-down ml-1"></i>
+                            </button>
+                            <div class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                <a class="block px-4 py-2 hover:bg-gray-100" href="{% url 'accounts:profile' %}">Profile</a>
+                                <a class="block px-4 py-2 hover:bg-gray-100" href="{% url 'orders:order_list' %}">My Orders</a>
+                                {% if user.is_staff %}
+                                    <a class="block px-4 py-2 hover:bg-gray-100" href="/admin/">Admin Panel</a>
+                                {% endif %}
+                                <a class="block px-4 py-2 hover:bg-gray-100" href="{% url 'accounts:logout' %}">Logout</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a class="hover:text-yellow-400 transition duration-300" href="{% url 'accounts:login' %}">Login</a>
+                        <a class="bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition duration-300" href="{% url 'accounts:register' %}">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="lg:hidden hidden" id="mobile-menu">
+                <div class="py-4 space-y-4">
+                    <a class="block hover:text-yellow-400 transition duration-300" href="/">Home</a>
+                    <a class="block hover:text-yellow-400 transition duration-300" href="{% url 'products:product_list' %}">Products</a>
+                    <a class="block hover:text-yellow-400 transition duration-300" href="/api/schema/swagger-ui/">API Docs</a>
+                    {% if user.is_authenticated %}
+                        <a class="block hover:text-yellow-400 transition duration-300" href="{% url 'accounts:profile' %}">Profile</a>
+                        <a class="block hover:text-yellow-400 transition duration-300" href="{% url 'orders:order_list' %}">My Orders</a>
+                        {% if user.is_staff %}
+                            <a class="block hover:text-yellow-400 transition duration-300" href="/admin/">Admin Panel</a>
+                        {% endif %}
+                        <a class="block hover:text-yellow-400 transition duration-300" href="{% url 'accounts:logout' %}">Logout</a>
+                    {% else %}
+                        <a class="block hover:text-yellow-400 transition duration-300" href="{% url 'accounts:login' %}">Login</a>
+                        <a class="block bg-yellow-400 text-black px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition duration-300 text-center" href="{% url 'accounts:register' %}">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
